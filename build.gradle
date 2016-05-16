@@ -1,7 +1,6 @@
 plugins {
   id 'java'
   id 'eclipse'
-  id 'idea'
   id 'jacoco'
   
   // community plugins
@@ -11,7 +10,6 @@ plugins {
 
 version = '1.0.0'
 sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
 
 repositories {
   jcenter()
@@ -20,8 +18,7 @@ repositories {
 dependencies {
   testCompile(
     'junit:junit:4.12',
-    'org.assertj:assertj-core:3.3.0',
-    'org.mockito:mockito-all:2.0.2-beta'
+    'org.assertj:assertj-core:2.4.1'
   )
 }
 
@@ -42,8 +39,4 @@ spotless {
     java {
       eclipseFormatFile 'eclipseformat.xml'
     }
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.13'
 }
