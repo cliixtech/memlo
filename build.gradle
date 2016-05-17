@@ -17,8 +17,16 @@ repositories {
   mavenCentral()
 }
 
+ext {
+  bouncycastleVersion = "1.45"
+}
+
 dependencies {
-  compile 'net.iharder:base64:2.3.9'
+  compile(
+    "org.bouncycastle:bcprov-jdk16:${bouncycastleVersion}",
+    "net.iharder:base64:2.3.9"
+  )
+
   testCompile(
     'junit:junit:4.12',
     'org.assertj:assertj-core:2.4.1'

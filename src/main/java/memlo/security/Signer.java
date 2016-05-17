@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Security;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import net.iharder.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class Signer {
 
@@ -22,6 +25,10 @@ public class Signer {
 
     private Signer() {
 
+    }
+
+    static {
+        Security.addProvider(new BouncyCastleProvider());
     }
 
     public static Signer getInstance() {
