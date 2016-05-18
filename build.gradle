@@ -12,7 +12,8 @@ version = '1.0.0'
 sourceCompatibility = JavaVersion.VERSION_1_7
 
 repositories {
-  jcenter()
+  mavenLocal()
+  mavenCentral()
 }
 
 ext {
@@ -21,7 +22,7 @@ ext {
 
 dependencies {
   compile(
-    'org.bouncycastle:bcprov-jdk16:1.45'
+    "org.bouncycastle:bcprov-jdk16:${bouncycastleVersion}"
   )
 
   testCompile(

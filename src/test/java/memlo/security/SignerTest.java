@@ -3,8 +3,8 @@ package memlo.security;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 import org.junit.Test;
 
@@ -30,27 +30,24 @@ public class SignerTest {
 
     @Test
     public void assymetricSign_signAndVerify_ok() throws NoSuchAlgorithmException {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance(Algorithm.KEY_PAIR.algm);
-        KeyPair pair = generator.generateKeyPair();
+        KeyPair pair = new KeyPairFactory().createKey();
 
         String signed = signer.sign(pair.getPrivate(), "hello", "world");
         assertThat(signer.verify(pair.getPublic(), signed, "hello", "world")).isTrue();
     }
 
     @Test
-    public void assymetricSign_signAndVerify_wrongKeyFails() throws NoSuchAlgorithmException {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance(Algorithm.KEY_PAIR.algm);
-        KeyPair pair = generator.generateKeyPair();
+    public void assymetricSign_signAndVerify_wrongKeyFails() throws NoSuchAlgorithmException, NoSuchProviderException {
+        KeyPair pair = new KeyPairFactory().createKey();
 
         String signed = signer.sign(pair.getPrivate(), "hello", "world");
 
-        assertThat(signer.verify(generator.generateKeyPair().getPublic(), signed, "hello", "world")).isFalse();
+        assertThat(signer.verify(new KeyPairFactory().createKey().getPublic(), signed, "hello", "world")).isFalse();
     }
 
     @Test
     public void assymetricSign_signAndVerify_wrongContentFails() throws NoSuchAlgorithmException {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance(Algorithm.KEY_PAIR.algm);
-        KeyPair pair = generator.generateKeyPair();
+        KeyPair pair = new KeyPairFactory().createKey();
 
         String signed = signer.sign(pair.getPrivate(), "hello", "world");
 

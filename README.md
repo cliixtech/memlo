@@ -1,5 +1,7 @@
 # About Memlo
 
+[![CircleCI](https://circleci.com/gh/cliixtech/memlo.svg?style=svg)](https://circleci.com/gh/cliixtech/memlo)
+
 [Weed Memlo](http://38.media.tumblr.com/ebfd2b33051d202be3186ca3f565738e/tumblr_inline_mstfdikWSz1qz4rgp.png) is the cryptography library for **Cliix** products.
 
 It provide supports for handling public/private keys, signing and hashing/digesting messages.
