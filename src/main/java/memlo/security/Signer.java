@@ -75,22 +75,27 @@ public class Signer {
     }
 
     public String digest(String... data) {
+        byte[] bytes = this.digestRaw(data);
+
+        StringBuilder sb = new StringBuilder();
+        for (byte b: bytes) {
+            sb.append(String.format("%02X", b));
+        }
+
+        return sb.toString();
+    }
+
+    public byte[] digestRaw(String... data) {
+        MessageDigest md;
         try {
-            MessageDigest md = MessageDigest.getInstance(Algorithm.DIGEST.algm);
-            for (String d: data) {
-                md.update(d.getBytes(UTF_8));
-            }
-            byte[] bytes = md.digest();
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b: bytes) {
-                sb.append(String.format("%02X", b));
-            }
-
-            return sb.toString();
+            md = MessageDigest.getInstance(Algorithm.DIGEST.algm);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+        for (String d: data) {
+            md.update(d.getBytes(UTF_8));
+        }
+        return md.digest();
     }
 
 }
