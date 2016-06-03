@@ -2,8 +2,7 @@ package memlo.security;
 
 public enum Algorithm {
     SECRET_KEY("DESede"),
-    KEY_PAIR("ECDSA"),
-    KEY_PAIR_PROVIDER("BC"),
+    KEY_PAIR("EC"),
     KEY_PAIR_SPEC("secp256k1"),
     KEY_PAIR_SIGN("SHA256withECDSA"),
     HMAC("HmacSHA256"),
