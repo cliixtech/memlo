@@ -10,6 +10,7 @@ plugins {
 
 version = '2.0.0'
 sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 repositories {
   mavenLocal()
@@ -17,6 +18,7 @@ repositories {
 }
 
 dependencies {
+  compile 'net.iharder:base64:2.3.9'
   testCompile(
     'junit:junit:4.12',
     'org.assertj:assertj-core:2.4.1'

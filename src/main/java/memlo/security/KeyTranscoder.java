@@ -1,5 +1,6 @@
 package memlo.security;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -10,11 +11,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
+
+import net.iharder.Base64;
 
 /**
  * Encodes/Decodes keys
@@ -33,7 +35,11 @@ public final class KeyTranscoder {
     }
 
     public static byte[] getSpec(String encoded) {
-        return Base64.getDecoder().decode(encoded);
+        try {
+            return Base64.decode(encoded);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static String encodeKey(Key key) {
@@ -41,7 +47,7 @@ public final class KeyTranscoder {
     }
 
     public static String encodeKey(byte[] key) {
-        return Base64.getEncoder().encodeToString(key);
+        return Base64.encodeBytes(key);
     }
 
     public static SecretKey decodeSecretKey(String encodedSecret) {
