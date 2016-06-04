@@ -32,12 +32,16 @@ public final class KeyTranscoder {
         }
     }
 
-    private static byte[] getSpec(String encoded) {
+    public static byte[] getSpec(String encoded) {
         return Base64.getDecoder().decode(encoded);
     }
 
     public static String encodeKey(Key key) {
-        return Base64.getEncoder().encodeToString(key.getEncoded());
+        return encodeKey(key.getEncoded());
+    }
+
+    public static String encodeKey(byte[] key) {
+        return Base64.getEncoder().encodeToString(key);
     }
 
     public static SecretKey decodeSecretKey(String encodedSecret) {
