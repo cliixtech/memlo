@@ -8,7 +8,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.util.Base64;
+import java.io.IOException;
+import net.iharder.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -35,7 +36,7 @@ public class Signer {
                 signer.update(d.getBytes(UTF_8));
             }
             byte[] signature = signer.sign();
-            return Base64.getEncoder().encodeToString(signature);
+            return Base64.encodeBytes(signature);
 
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new RuntimeException(e);
@@ -49,11 +50,11 @@ public class Signer {
             for (String d: data) {
                 signer.update(d.getBytes(UTF_8));
             }
-            byte[] rawSignature = Base64.getDecoder().decode(signature);
+            byte[] rawSignature = Base64.decode(signature);
             return signer.verify(rawSignature);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
-        } catch (InvalidKeyException | SignatureException e) {
+        } catch (InvalidKeyException | SignatureException | IOException e) {
             return false;
         }
     }
@@ -67,7 +68,7 @@ public class Signer {
                 generator.update(d.getBytes(UTF_8));
             }
             byte[] hmac = generator.doFinal();
-            return Base64.getEncoder().encodeToString(hmac);
+            return Base64.encodeBytes(hmac);
 
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
