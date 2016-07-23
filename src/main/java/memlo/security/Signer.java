@@ -85,12 +85,7 @@ public class Signer {
     public String digest(String... data) {
         byte[] bytes = this.digestRaw(data);
 
-        StringBuilder sb = new StringBuilder();
-        for (byte b: bytes) {
-            sb.append(String.format("%02X", b));
-        }
-
-        return sb.toString();
+        return Base64.encodeBytes(bytes);
     }
 
     public byte[] digestRaw(String... data) {
