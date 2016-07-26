@@ -1,18 +1,22 @@
 package memlo.security;
 
+import static memlo.security.EncodingUtils.asBytes;
+import static memlo.security.EncodingUtils.asString;
+
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Security;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.io.IOException;
-import net.iharder.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class Signer {
 
@@ -22,6 +26,10 @@ public class Signer {
 
     private Signer() {
 
+    }
+
+    static {
+        Security.addProvider(new BouncyCastleProvider());
     }
 
     public static Signer getInstance() {
@@ -36,7 +44,7 @@ public class Signer {
                 signer.update(d.getBytes(UTF_8));
             }
             byte[] signature = signer.sign();
-            return Base64.encodeBytes(signature);
+            return asString(signature);
 
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             throw new RuntimeException(e);
@@ -50,11 +58,11 @@ public class Signer {
             for (String d: data) {
                 signer.update(d.getBytes(UTF_8));
             }
-            byte[] rawSignature = Base64.decode(signature);
+            byte[] rawSignature = asBytes(signature);
             return signer.verify(rawSignature);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
-        } catch (InvalidKeyException | SignatureException | IOException e) {
+        } catch (InvalidKeyException | SignatureException e) {
             return false;
         }
     }
@@ -68,7 +76,7 @@ public class Signer {
                 generator.update(d.getBytes(UTF_8));
             }
             byte[] hmac = generator.doFinal();
-            return Base64.encodeBytes(hmac);
+            return asString(hmac);
 
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
@@ -78,12 +86,7 @@ public class Signer {
     public String digest(String... data) {
         byte[] bytes = this.digestRaw(data);
 
-        StringBuilder sb = new StringBuilder();
-        for (byte b: bytes) {
-            sb.append(String.format("%02X", b));
-        }
-
-        return sb.toString();
+        return asString(bytes);
     }
 
     public byte[] digestRaw(String... data) {
