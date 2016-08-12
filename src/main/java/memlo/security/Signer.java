@@ -9,27 +9,23 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.Signature;
 import java.security.SignatureException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 public class Signer {
+
+    static {
+        Initializer.init();
+    }
 
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private static final Signer INSTANCE = new Signer();
 
     private Signer() {
-
-    }
-
-    static {
-        Security.addProvider(new BouncyCastleProvider());
     }
 
     public static Signer getInstance() {
