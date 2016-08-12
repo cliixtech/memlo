@@ -8,7 +8,7 @@ plugins {
   id 'com.diffplug.gradle.spotless' version '1.3.3'
 }
 
-version = '3.0.0'
+version = '4.0.0'
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
@@ -18,15 +18,16 @@ repositories {
 }
 
 ext {
-  bouncycastleVersion = "1.45"
+    spongyCastleVersion = "1.54.0.0"
 }
 
 dependencies {
   compile(
-    "org.bouncycastle:bcprov-jdk16:${bouncycastleVersion}",
-    "net.iharder:base64:2.3.9"
+    'net.iharder:base64:2.3.9',
+    "com.madgag.spongycastle:core:${spongyCastleVersion}",
+    "com.madgag.spongycastle:prov:${spongyCastleVersion}",
+    "com.madgag.spongycastle:pkix:${spongyCastleVersion}"
   )
-
   testCompile(
     'junit:junit:4.12',
     'org.assertj:assertj-core:2.4.1'
