@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import javax.crypto.SecretKey;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +21,21 @@ public class KeyTranscoderTest {
     @Before
     public void setUp() throws NoSuchAlgorithmException {
         this.pair = new KeyPairFactory().createKey();
+    }
+
+    @Test
+    public void encode_decodencodeSecretKey_secret() {
+        byte[] data = Signer.getInstance().digestRaw("mysecret");
+        SecretKey original = KeyTranscoder.encodeSecretKey(data);
+        String keyEncoded = KeyTranscoder.encodeKey(original);
+        SecretKey decoded = KeyTranscoder.decodeSecretKey(keyEncoded);
+
+        assertThat(original).isEqualTo(decoded);
+
+        data = Signer.getInstance().digestRaw("otherSecret");
+        SecretKey other = KeyTranscoder.encodeSecretKey(data);
+
+        assertThat(original).isNotEqualTo(other);
     }
 
     @Test

@@ -21,7 +21,7 @@ public class KeyPairFactory {
     public KeyPairFactory() {
         try {
             ECParameterSpec ecSpec = ECNamedCurveTable.getParameterSpec(Algorithm.KEY_PAIR_SPEC.algm);
-            this.factory = KeyPairGenerator.getInstance(Algorithm.KEY_PAIR.algm, Algorithm.KEY_PAIR_PROVIDER.algm);
+            this.factory = KeyPairGenerator.getInstance(Algorithm.KEY_PAIR.algm, Algorithm.PROVIDER.algm);
             this.factory.initialize(ecSpec, SecureRandom.getInstance("NativePRNGNonBlocking"));
         } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException | NoSuchProviderException e) {
             throw new RuntimeException(e);
